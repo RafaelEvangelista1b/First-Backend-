@@ -26,8 +26,26 @@ app.post('/api/produtos',(req,res)=>{
 })
 
 //PUT
+app.put('/api/produtos/:id', (req,res)=>{
+    const id = parseInt(req,params.id);
+    const produto = produto.find(p=> p.id ==id);
+    if (!produto){
+        return res.status(404).json({mensagem:'produto não encontrado'}); 
+    }
+})
 //DELETE
-
+app.delete('/api/produtos/:id', (req,res)=>{
+    const id = parseInt(req,params.id, 10);
+    if (isNaN(id)) {
+        return res.status(400).json({mensagem: 'O ID fornecido não é um número válido'})
+    }
+    const tamanhoOriginal = produtos.length;
+    produtos = produtos.filter(p => p.id !== id);
+    if (tamanhoOriginal === produtos.length){
+        return res.status(404).json({mensagem:'Produto não encontra para a exclusão'})
+    }
+    res.status(204).send();
+})
 //Rota principal
 app.get('/', (req, res) =>{
     res.send('Olá, este é o servidor com Express');
